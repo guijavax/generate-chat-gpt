@@ -20,9 +20,13 @@ class ChapGptController {
 
 
     @GetMapping
-    fun callChatGpt(@RequestParam text : String) {
-        chatGptClient.callChatGpt(mountBody(text))
-        println()
+    fun callChatGpt(@RequestParam text : String) : String?{
+        val response = chatGptClient.callChatGpt(mountBody(text))
+        val content = response.choices?.let {
+            it.get(0).message?.content
+        }
+        println(content)
+        return content
     }
 
     private fun mountBody(text: String) =
